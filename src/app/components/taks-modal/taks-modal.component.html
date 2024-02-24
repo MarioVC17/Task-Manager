@@ -1,0 +1,55 @@
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Crear tarea</h4>
+		<button type="button" class="btn-close" (click)="closeModal()"></button>
+	</div>
+
+	<div class="modal-body" [formGroup]="FormGroup">
+        <div class="mb-3">
+            <label>Nombre de la tarea</label>
+            <div class="input-group">
+                <input class="form-control" formControlName="name" [class.is-invalid]="formInvalid('name')"/>
+                <div class="invalid-feedback">
+                    <ng-container *ngFor="let error of ['required', 'maxlength']">
+                        <div *ngIf="FormGroup.controls['name'].hasError(error) && (FormGroup.controls['name'].dirty || FormGroup.controls['name'].touched)">
+                          <span [ngSwitch]="error">
+                            <p *ngSwitchCase="'required'">Campo Requerido</p>
+                            <p *ngSwitchCase="'maxlength'">Campo Excede el limite</p>
+                          </span>
+                        </div>
+                      </ng-container>
+                </div>
+            </div>
+        </div>
+    
+        <div class="mb-3">
+            <label>Descripción de la tarea</label>
+            <div class="input-group">
+                <input class="form-control" formControlName="description" [class.is-invalid]="formInvalid('description')"/>
+                <div class="invalid-feedback">
+                    <ng-container *ngFor="let error of ['required', 'maxlength']">
+                        <div *ngIf="FormGroup.controls['name'].hasError(error) && (FormGroup.controls['name'].dirty || FormGroup.controls['name'].touched)">
+                          <span [ngSwitch]="error">
+                            <p *ngSwitchCase="'required'">Campo Requerido</p>
+                            <p *ngSwitchCase="'maxlength'">Campo Excede el limite</p>
+                          </span>
+                        </div>
+                      </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+          <label>Estado de la tarea</label>
+          <div class="input-group">
+            <select class="form-control" formControlName="description">
+              <option value="1"> Por hacer </option>
+              <option value="2"> En curso </option>
+            </select>
+          </div>
+        </div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success" (click)="processTask()">Save</button>
+	</div>
+</ng-template>
