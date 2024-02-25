@@ -1,55 +1,57 @@
 <ng-template #content let-modal>
+  <!-- START 'MODAL-HEADER' -->
 	<div class="modal-header">
 		<h4 class="modal-title" id="modal-basic-title">Crear tarea</h4>
 		<button type="button" class="btn-close" (click)="closeModal()"></button>
 	</div>
-
-	<div class="modal-body" [formGroup]="FormGroup">
-        <div class="mb-3">
-            <label>Nombre de la tarea</label>
-            <div class="input-group">
-                <input class="form-control" formControlName="name" [class.is-invalid]="formInvalid('name')"/>
-                <div class="invalid-feedback">
-                    <ng-container *ngFor="let error of ['required', 'maxlength']">
-                        <div *ngIf="FormGroup.controls['name'].hasError(error) && (FormGroup.controls['name'].dirty || FormGroup.controls['name'].touched)">
-                          <span [ngSwitch]="error">
-                            <p *ngSwitchCase="'required'">Campo Requerido</p>
-                            <p *ngSwitchCase="'maxlength'">Campo Excede el limite</p>
-                          </span>
-                        </div>
-                      </ng-container>
-                </div>
+  <!-- END 'MODAL-HEADER' -->
+  <!-- START 'MODAL-BODY' -->
+	<div class="modal-body" [formGroup]="FormGroup">   
+    <!-- START 'NAME FIELD' -->
+    <div class="mb-3">
+      <label>Nombre de la tarea</label>
+      <div class="input-group">
+        <input class="form-control" formControlName="name" [class.is-invalid]="formInvalid('name')"/>
+        <!-- START TEXT ERRORS -->
+        <div class="invalid-feedback">
+          <ng-container *ngFor="let error of ['required', 'maxlength']">
+            <div *ngIf="FormGroup.controls['name'].hasError(error) && (FormGroup.controls['name'].dirty || FormGroup.controls['name'].touched)">
+              <span [ngSwitch]="error">
+                <p *ngSwitchCase="'required'">Campo Requerido</p>
+                <p *ngSwitchCase="'maxlength'">Campo Excede el limite</p>
+              </span>
             </div>
+          </ng-container>
         </div>
-    
-        <div class="mb-3">
-            <label>Descripción de la tarea</label>
-            <div class="input-group">
-                <input class="form-control" formControlName="description" [class.is-invalid]="formInvalid('description')"/>
-                <div class="invalid-feedback">
-                    <ng-container *ngFor="let error of ['required', 'maxlength']">
-                        <div *ngIf="FormGroup.controls['name'].hasError(error) && (FormGroup.controls['name'].dirty || FormGroup.controls['name'].touched)">
-                          <span [ngSwitch]="error">
-                            <p *ngSwitchCase="'required'">Campo Requerido</p>
-                            <p *ngSwitchCase="'maxlength'">Campo Excede el limite</p>
-                          </span>
-                        </div>
-                      </ng-container>
-                </div>
+        <!-- START TEXT ERRORS -->
+      </div>
+    </div>
+    <!-- END 'NAME FIELD' -->
+    <!-- START 'DESCRIPTION FIELD' -->
+    <div class="mb-3">
+      <label>Descripción de la tarea</label>
+      <div class="input-group">
+        <input class="form-control" formControlName="description" [class.is-invalid]="formInvalid('description')"/>
+        <!-- START TEXT ERRORS -->
+        <div class="invalid-feedback">
+          <ng-container *ngFor="let error of ['required', 'maxlength']">
+            <div *ngIf="FormGroup.controls['description'].hasError(error) && (FormGroup.controls['description'].dirty || FormGroup.controls['description'].touched)">
+              <span [ngSwitch]="error">
+                <p *ngSwitchCase="'required'">Campo Requerido</p>
+                <p *ngSwitchCase="'maxlength'">Campo Excede el limite</p>
+              </span>
             </div>
+          </ng-container>
         </div>
-
-        <div class="mb-3">
-          <label>Estado de la tarea</label>
-          <div class="input-group">
-            <select class="form-control" formControlName="description">
-              <option value="1"> Por hacer </option>
-              <option value="2"> En curso </option>
-            </select>
-          </div>
-        </div>
-	</div>
+        <!-- END TEXT ERRORS -->
+      </div>
+    </div>
+    <!-- END 'DESCRIPTION FIELD' -->
+  </div>
+  <!-- END 'MODAL-BODY' -->
+  <!-- START 'MODAL FOOTER' -->
 	<div class="modal-footer">
 		<button type="button" class="btn btn-success" (click)="processTask()">Save</button>
 	</div>
+  <!-- END 'MODAL FOOTER' -->
 </ng-template>

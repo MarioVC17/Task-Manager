@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { TaskService } from 'src/app/services/task/task.service';
 import { DateTime } from "luxon";
-import { ToastrService } from 'ngx-toastr';
+import { Task } from 'src/app/interfaces/interfaces';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { TaskService } from 'src/app/services/task/task.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { swalToast, swalToastError } from 'src/app/utils/swal.utils';
 
 @Component({
@@ -14,11 +14,11 @@ import { swalToast, swalToastError } from 'src/app/utils/swal.utils';
 export class TaksModalComponent implements OnInit {
 
   @ViewChild("content") private modalContent: any;
+  @Output() task = new EventEmitter<any>();
   private modalRef!: NgbModalRef;
 
   public FormGroup!: FormGroup;
-  public Task: any;
-  public Update: boolean = false;
+  public Task!: Task;
 
   constructor (
     private _modalService: NgbModal,
@@ -38,7 +38,7 @@ export class TaksModalComponent implements OnInit {
       name: new FormControl(task ? task.name : '', [Validators.required, Validators.maxLength(32)]),
       description: new FormControl(task ? task.description : '', [Validators.required, Validators.maxLength(40)]),
       creation_date: new FormControl(task ? task.creation_date : DateTime.now()),
-      status: new FormControl(task ? task.status : '')
+      status: new FormControl(task ? task.status : '1')
     });
   }
 
@@ -78,16 +78,9 @@ export class TaksModalComponent implements OnInit {
   public processTask(): void {
     const Value = this.FormGroup.value;
     if (this.FormGroup.valid) {
-      if (this.Task === undefined) {
-        this.Update = false;
-        this._taskService.createTask(Value);
-        swalToast('¡Tarea añadida con éxito!');
-      } else {
-        this.Update = true;
-        this._taskService.updatedTask(Value);
-        swalToast('¡Tarea actualizada exitosamente!');
-      }
+      const Action: string = (this.Task === undefined ? 'create' : 'update');
+      this.task.emit({ action: Action, task: Value });
       this.modalRef.close();
-    } else swalToastError('Oops, parece que hay errores en algunos campos. Por favor, verifica y vuelve a intentar. ')
+    } else swalToastError('Oops, parece que hay errores en algunos campos. Por favor, verifica y vuelve a intentar.');
   }
 }

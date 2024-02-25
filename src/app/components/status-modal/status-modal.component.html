@@ -1,0 +1,31 @@
+<ng-template #status_modal>
+    <!-- START 'MODAL-HEADER' -->
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Modificar estado de la Tarea</h4>
+		<button type="button" class="btn-close" (click)="closeModal()"></button>
+	</div>
+    <!-- END 'MODAL-HEADER' -->
+    <!-- START 'MODAL-BODY' -->
+	<div class="modal-body" [formGroup]="FormGroup">
+        <!-- START 'SELECTOR FIELD' -->
+        <div class="mb-3">
+          <label>Estado de la tarea</label>
+          <div class="input-group">
+            <select class="form-control" formControlName="status">
+              <option value="1"> Por hacer </option>
+              <option value="2"> En curso </option>
+              <option value="4"> Completado </option>
+              <option value="5"> Cancelar </option>
+            </select>
+          </div>
+        </div>
+        <!-- END 'SELECTOR FIELD' -->
+	</div>
+    <!-- END 'MODAL BODY' -->
+    <!-- START 'MODAL FOOTER' -->
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success" (click)="saveStatus()">Save</button>
+	</div>
+    <!-- END 'MODAL FOOTER' -->
+</ng-template>
+

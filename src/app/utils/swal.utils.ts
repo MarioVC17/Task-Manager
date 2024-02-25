@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 import swal, { SweetAlertCustomClass, SweetAlertIcon, SweetAlertResult } from "sweetalert2";
 
 export const swalWarningMessage = ( title: string, text: string, style?: SweetAlertCustomClass ): Promise<SweetAlertResult<any>> => {

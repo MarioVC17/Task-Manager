@@ -41,23 +41,23 @@ export class TaskService {
 
   /**
    * Crea una nueva tarea
-   * @param {any} task_list - Lista de tareas 
+   * @param {Task} task - Tarea a agregar
    */
-  public createTask(task_list: any): void {
+  public createTask(task: Task): void {
     const TaskList: Array<Task> = this.taskList;
-    TaskList.push(task_list);
+    TaskList.push(task);
     this.setTaskList = TaskList;
   }
 
   /**
    * Actualiza una tarea
-   * @param {any} task_list - Lista de tareas
+   * @param {Task} task - Tarea a actualizar
    */
-  public updatedTask(task_list: any): void {
-    const TaskList: Array<Task> = this.taskList.map((task) => {
-      if (task.task_id === task_list.task_id) {
-        return task_list;
-      } else return task;
+  public updatedTask(task: Task): void {
+    const TaskList: Array<Task> = this.taskList.map((item) => {
+      if (item.task_id === task.task_id) {
+        return task;
+      } else return item;
     });
     this.setTaskList = TaskList;
   }

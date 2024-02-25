@@ -1,14 +1,23 @@
 <div class="container mt-4">
+    <!-- START NAV TASKS -->
     <ul class="nav nav-tabs">
+        <!-- START ALL TASKS -->
         <li class="nav-item">
-            <a class="nav-link active">Total Tasks</a>
+            <a class="nav-link active" [ngClass]="{'active': activeTab === ''}" (click)="changeContent('')">Total de Tareas</a>
         </li>
+        <!-- END ALL TASKS -->
+        <!-- START  TASKS IN PROGRESS -->
         <li class="nav-item">
-            <a class="nav-link">Tasks In Progress</a>
+            <a class="nav-link" [ngClass]="{'active': activeTab === 'task-progress'}" (click)="changeContent('task-progress')">Tasks In Progress</a>
         </li>
+        <!-- START  TASKS IN PROGRESS -->
     </ul>
+    <!-- START NAV TASKS -->
+    <!-- START CONTENT TASK MANAGER -->
     <div class="card content-task mt-4">
+        <!-- START CARD BODY -->
         <div class="card-body">
+            <!-- OPTIONS TASKS (Search taxk and Add task) -->
             <div class="container-fluid mt-4">
                 <div class="row justify-content-between">
                     <div class="col-8">
@@ -16,20 +25,22 @@
                     </div>
                     <div class="col-4 d-flex">
                         <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-primary" type="submit">
-                                <i class="bi bi-search"></i>
-                            </button>
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" #txtSearch (keyup)="onSearch(txtSearch.value)">
                         </form>
-                        <button type="button" class="btn btn-success ms-2" (click)="openModaal()">
+                        <button type="button" class="btn btn-success ms-2" (click)="openModalTask()" placement="bottom" ngbTooltip="Agregar Tarea">
                             <i class="bi bi-plus-lg"></i>
                         </button>
                     </div>
                 </div>
             </div>
+            <!-- END CONTENT TASK MANAGER -->
+            <!-- START CONTENT TABLE WITH TAKS -->
             <div class="card mt-4">
+                <!-- START CONTENT TABLE -->
                 <div class="card-body">
+                    <!-- START TABLE LIST TASKS -->
                     <table class="table">
+                        <!-- START HEADER TABLE -->
                         <thead class="bg-light">
                             <tr class="text-center">
                                 <th>Ref</th>
@@ -39,11 +50,16 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
+                        <!-- END HEADER TABLE -->
+                        <!-- START BODY TABLE -->
                         <tbody>
-                            <tr *ngFor="let task of taskList; let index = index">
+                            <tr *ngFor="let task of ListTasks; let index = index">
+                                <!-- START REF -->
                                 <td>
                                     <h5 class="text-center"># {{ index + 1 }} </h5>
                                 </td>
+                                <!-- END START REF -->
+                                <!-- START NAME & DESCRIPTION -->
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div>
@@ -52,29 +68,48 @@
                                         </div>
                                     </div>
                                 </td>
+                                <!-- END NAME & DESCRIPTION -->
+                                <!-- START DATE CREATION TASK -->
                                 <td>
                                     <p class="text-center"> {{ task.creation_date | date: 'dd/MM/YYYY' }} </p>
                                 </td>
-                                <td>
-                                    
+                                <!-- END DATE CREATION TASK -->
+                                <!-- START STATE TASK -->
+                                <td >
+                                    <div  [ngSwitch]="task.status" class="text-center" (click)="openModalStatus(task)">
+                                        <span *ngSwitchCase="'1'" class="badge text-bg-secondary state">Por hacer</span>
+                                        <span *ngSwitchCase="'2'" class="badge text-bg-primary state">En curso</span>
+                                        <span *ngSwitchCase="'3'" class="badge text-bg-succes state">Completado</span>
+                                        <span *ngSwitchCase="'4'" class="badge text-bg-danger state">Cancelada</span>
+                                    </div>
                                 </td>
+                                <!-- END STATE TASK -->
+                                <!-- START ACTIONS (Edit & Remove Task) -->
                                 <td>
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-primary" (click)="updateTask(task)">
+                                        <button type="button" class="btn btn-primary" (click)="updateTask(task)" placement="bottom" ngbTooltip="Editar">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
-                                        <button type="button" class="btn btn-danger ms-2" (click)="deleteTask(task.task_id)">
+                                        <button type="button" class="btn btn-danger ms-2" (click)="deleteTask(task.task_id)" placement="bottom" ngbTooltip="Eliminar">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     </div>
                                 </td>
+                                <!-- END ACTIONS (Edit & Remove Task) -->
                             </tr>
                         </tbody>
+                        <!-- END BODY TABLE -->
                     </table>
+                    <!-- END TABLE LIST TASKS -->
                 </div>
+                <!-- END CONTENT TABLE -->
             </div>
+            <!-- END CONTENT TABLE WITH TAKS -->
         </div>
+        <!-- END CARD BODY -->
     </div>
+    <!-- END CONTENT TASK MANAGER -->
 </div>
 
-<app-taks-modal #modal></app-taks-modal>
+<app-taks-modal #modal (task)="proccessTask($event)"></app-taks-modal>
+<app-status-modal #status (newItemEvent)="changeStatus($event)"></app-status-modal>
