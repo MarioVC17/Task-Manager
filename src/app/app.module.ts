@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { TasksManagerComponent } from './pages/tasks-manager/tasks-manager.component';
@@ -23,8 +22,7 @@ import { StatusModalComponent } from './components/status-modal/status-modal.com
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    ReactiveFormsModule,
-    ToastrModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
